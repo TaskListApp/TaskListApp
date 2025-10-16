@@ -17,3 +17,33 @@ body {
     background-color: #0d6efd;
     color: white;
 }
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.tarefa-texto {
+    flex: 1;
+    margin-left: 8px;
+}
+
+.icone-status {
+    font-size: 1.3rem;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.tarefa-concluida {
+    font-weight: bold;
+}
+
+icone-excluir {
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-left: 10px;
+    color: #dc3545; /* vermelho bootstrap */
+}
+
+.icone-excluir:hover {
+    color: #bb2d3b;
+}

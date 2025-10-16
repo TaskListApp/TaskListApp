@@ -1,10 +1,8 @@
-// Variáveis e constantes
 let contador = 0;
 const btnAdicionar = document.getElementById("btnAdicionar");
 const inputTarefa = document.getElementById("novaTarefa");
 const lista = document.getElementById("listaTarefas");
 
-// Botão Excluir Todas
 const btnExcluirTodas = document.createElement("button");
 btnExcluirTodas.className = "btn btn-danger mt-3";
 btnExcluirTodas.innerHTML = '<i class="bi bi-trash3"></i> Excluir Todas';
@@ -13,17 +11,14 @@ btnExcluirTodas.style.width = "20%";          // 1/5 da largura
 btnExcluirTodas.style.margin = "20px auto 0"; // centralizado
 lista.parentNode.appendChild(btnExcluirTodas); // abaixo da lista
 
-// Mostrar mensagens de alerta
 const divAlerta = document.createElement("div");
 divAlerta.className = "mt-3";
 inputTarefa.parentNode.parentNode.insertBefore(divAlerta, lista);
 
-// Eventos principais
 window.addEventListener("DOMContentLoaded", carregarTarefas);
 btnAdicionar.addEventListener("click", adicionarTarefa);
 btnExcluirTodas.addEventListener("click", excluirTodasTarefas);
 
-// Adiciona uma nova tarefa
 function adicionarTarefa() {
     const texto = inputTarefa.value.trim();
 
@@ -48,25 +43,44 @@ function adicionarTarefa() {
     atualizarVisibilidadeBotaoExcluirTodas();
 }
 
-// Adiciona tarefa na lista
 function adicionarTarefaNaLista(tarefa) {
     const item = document.createElement("li");
-    item.className = "list-group-item d-flex align-items-center";
+    item.className = "list-group-item d-flex align-items-center justify-content-between";
+
+    const esquerda = document.createElement("div");
+    esquerda.className = "d-flex align-items-center";
 
     const icone = document.createElement("i");
     icone.className = "icone-status bi " +
         (tarefa.concluida ? "bi-check-circle-fill text-success" : "bi-circle text-secondary");
 
     const span = document.createElement("span");
-    span.className = "tarefa-texto" + (tarefa.concluida ? " tarefa-concluida" : "");
+    span.className = "ms-2 tarefa-texto" + (tarefa.concluida ? " tarefa-concluida" : "");
     span.textContent = `${tarefa.id}. ${tarefa.texto}`;
+
+    esquerda.appendChild(icone);
+    esquerda.appendChild(span);
+
+    const direita = document.createElement("div");
+    direita.className = "d-flex align-items-center";
+
+    const iconeUp = document.createElement("i");
+    iconeUp.className = "bi bi-arrow-up-circle-fill text-success me-2 icone-mover";
+    iconeUp.style.cursor = "pointer";
+
+    const iconeDown = document.createElement("i");
+    iconeDown.className = "bi bi-arrow-down-circle-fill text-primary me-2 icone-mover";
+    iconeDown.style.cursor = "pointer";
 
     const iconeExcluir = document.createElement("i");
     iconeExcluir.className = "icone-excluir bi bi-trash3-fill";
 
-    item.appendChild(icone);
-    item.appendChild(span);
-    item.appendChild(iconeExcluir);
+    direita.appendChild(iconeUp);
+    direita.appendChild(iconeDown);
+    direita.appendChild(iconeExcluir);
+
+    item.appendChild(esquerda);
+    item.appendChild(direita);
     lista.appendChild(item);
 
     icone.addEventListener("click", () => {
@@ -85,12 +99,38 @@ function adicionarTarefaNaLista(tarefa) {
 
     iconeExcluir.addEventListener("click", () => {
         item.remove();
+        renumerarTarefas();
         salvarTarefas();
         atualizarVisibilidadeBotaoExcluirTodas();
     });
+
+    iconeUp.addEventListener("click", () => {
+        const anterior = item.previousElementSibling;
+        if (anterior) lista.insertBefore(item, anterior);
+        renumerarTarefas();
+        salvarTarefas();
+    });
+
+    iconeDown.addEventListener("click", () => {
+        const proximo = item.nextElementSibling;
+        if (proximo) lista.insertBefore(proximo, item);
+        renumerarTarefas();
+        salvarTarefas();
+    });
 }
 
-// Exclui todas as tarefas
+function renumerarTarefas() {
+    let novaContagem = 1;
+    document.querySelectorAll("#listaTarefas li .tarefa-texto").forEach((span) => {
+        const textoCompleto = span.textContent;
+        const [, ...resto] = textoCompleto.split(".");
+        const texto = resto.join(".").trim();
+        span.textContent = `${novaContagem}. ${texto}`;
+        novaContagem++;
+    });
+    contador = novaContagem - 1;
+}
+
 function excluirTodasTarefas() {
     if (confirm("Tem certeza que deseja excluir todas as tarefas?")) {
         lista.innerHTML = "";
@@ -105,7 +145,6 @@ function atualizarVisibilidadeBotaoExcluirTodas() {
     btnExcluirTodas.style.display = temTarefas ? "block" : "none";
 }
 
-// Alerta temporário
 function mostrarAlerta(mensagem, tipo = "info") {
     divAlerta.innerHTML = `
         <div class="alert alert-${tipo} alert-dismissible fade show text-center" role="alert">
@@ -113,14 +152,12 @@ function mostrarAlerta(mensagem, tipo = "info") {
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
         </div>
     `;
-
     setTimeout(() => {
         const alerta = divAlerta.querySelector(".alert");
         if (alerta) alerta.remove();
     }, 3000);
 }
 
-// Salva as tarefas
 function salvarTarefas() {
     const tarefas = [];
     document.querySelectorAll("#listaTarefas li").forEach((item) => {
@@ -141,13 +178,10 @@ function salvarTarefas() {
     atualizarVisibilidadeBotaoExcluirTodas();
 }
 
-// Carrega as tarefas
 function carregarTarefas() {
     const armazenadas = JSON.parse(localStorage.getItem("tarefas")) || [];
     lista.innerHTML = "";
-    armazenadas.forEach((t) => {
-        if (t.id > contador) contador = t.id;
-        adicionarTarefaNaLista(t);
-    });
+    armazenadas.forEach((t) => adicionarTarefaNaLista(t));
+    renumerarTarefas();
     atualizarVisibilidadeBotaoExcluirTodas();
 }

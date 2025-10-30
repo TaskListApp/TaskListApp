@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const conteudo = document.getElementById("conteudo");
 
   // Carrega o menu
-  fetch("menu.html")
+  fetch("/menu.html")
     .then(res => res.ok ? res.text() : Promise.reject("Falha ao carregar menu"))
     .then(html => {
       menuContainer.innerHTML = html;
@@ -34,19 +34,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const scriptsExistentes = document.querySelectorAll("script[data-page-js]");
     scriptsExistentes.forEach(script => script.remove());
 
-    fetch(`pages/${pagina}.html`)
+    fetch(`/pages/${pagina}.html`)
       .then(res => res.ok ? res.text() : Promise.reject(`Falha ao carregar ${pagina}`))
       .then(html => {
         conteudo.innerHTML = html;
 
         const linkCss = document.createElement("link");
         linkCss.rel = "stylesheet";
-        linkCss.href = `css/${pagina}.css`;
+        linkCss.href = `/css/${pagina}.css`;
         linkCss.setAttribute("data-page-css", pagina);
         document.head.appendChild(linkCss);
 
         const script = document.createElement("script");
-        script.src = `js/${pagina}.js`;
+        script.src = `/js/${pagina}.js`;
         script.setAttribute("data-page-js", pagina);
         script.onload = () => {
           if (pagina === "tarefas") inicializarTarefas();

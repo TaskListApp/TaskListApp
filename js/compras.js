@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
   // Menu
-  fetch("/menu.html")
+  fetch("./menu.html")
     .then(resp => resp.ok ? resp.text() : Promise.reject("Falha ao carregar o menu"))
     .then(html => document.getElementById("menu-container").innerHTML = html)
     .catch(err => console.error(err));
 
   // Página de compras
-  fetch("/pages/compras.html")
+  fetch("./pages/compras.html")
     .then(resp => resp.ok ? resp.text() : Promise.reject("Falha ao carregar compras"))
     .then(html => {
       const conteudo = document.getElementById("conteudo");

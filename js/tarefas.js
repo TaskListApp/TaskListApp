@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("/menu.html")
+  fetch("./menu.html")
     .then(resp => {
       if (!resp.ok) throw new Error("Falha ao carregar o menu");
       return resp.text();
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch(err => console.error("Erro ao carregar o menu:", err));
 
-  fetch("/pages/tarefas.html")
+  fetch("./pages/tarefas.html")
     .then(resp => {
       if (!resp.ok) throw new Error("Falha ao carregar tarefas");
       return resp.text();

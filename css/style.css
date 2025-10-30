@@ -1,49 +1,28 @@
 body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding-top: 70px;
 }
 
-.list-group-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: background-color 0.3s;
+.navbar {
+  transition: background-color 0.3s;
 }
 
-.list-group-item:hover {
-    background-color: #f8f9fa;
+.navbar-brand i {
+  margin-right: 6px;
 }
 
-.list-group-item.active {
-    background-color: #0d6efd;
-    color: white;
+.navbar-nav {
+  flex-direction: row;
+  gap: 10px;
 }
 
-.list-group-item:hover {
-    background-color: #f8f9fa;
+.nav-link {
+  color: white !important;
+  font-weight: 500;
 }
 
-.tarefa-texto {
-    flex: 1;
-    margin-left: 8px;
-}
-
-.icone-status {
-    font-size: 1.3rem;
-    cursor: pointer;
-    margin-left: 10px;
-}
-
-.tarefa-concluida {
-    font-weight: bold;
-}
-
-icone-excluir {
-    font-size: 1.2rem;
-    cursor: pointer;
-    margin-left: 10px;
-    color: #dc3545; /* vermelho bootstrap */
-}
-
-.icone-excluir:hover {
-    color: #bb2d3b;
+.nav-link:hover,
+.nav-link.active {
+  text-decoration: underline;
+  color: #ffeb99 !important;
 }

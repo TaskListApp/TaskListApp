@@ -1,0 +1,69 @@
+.list-group-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.3s;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.list-group-item.active {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.tarefa-texto {
+    flex: 1;
+    margin-left: 8px;
+}
+
+.icone-status {
+    font-size: 1.3rem;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.icone-excluir, .bi {
+    font-size: 1.2rem;
+}
+
+.tarefa-concluida {
+    font-weight: bold;
+}
+
+.icone-excluir {
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-left: 10px;
+    color: black;
+}
+
+.icone-excluir:hover {
+    color: #bb2d3b;
+}
+
+.bi:hover {
+    color: aquamarine;
+}
+
+#btnLimpar {
+  background-color: #ff9800;
+  border-color:greenyellow;
+  color: navy;
+  transition: all 0.3s ease;
+}
+
+#btnLimpar:hover {
+  background-color: #e68900;
+  color: white;
+}
+
+.list-group-item input[type="checkbox"] {
+  margin-right: 10px;
+}

@@ -1,0 +1,76 @@
+#listaCompromissos {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#listaCompromissos li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.compromisso-texto {
+  display: flex;
+  align-items: center;
+}
+
+#listaCompromissos input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #0d6efd;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  margin-right: 10px;
+  background-color: white;
+  transition: background 0.2s;
+}
+
+#listaCompromissos input[type="checkbox"]:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+#listaCompromissos input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 7px;
+  width: 4px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.icone-mover, .icone-excluir {
+  margin-left: 8px;
+  cursor: pointer;
+  color: #0d6efd;
+}
+
+.icone-excluir:hover, .icone-mover:hover {
+  color: #dc3545;
+}
+
+.icone-selecionar-tudo {
+  margin-left: 10px;
+  cursor: pointer;
+  color: #0d6efd;
+}
+
+#btnLimpar {
+  display: none;
+  margin: 10px auto;
+  display: block;
+}

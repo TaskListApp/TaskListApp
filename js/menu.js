@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const scriptsExistentes = document.querySelectorAll("script[data-page-js]");
     scriptsExistentes.forEach(script => script.remove());
 
-    fetch(`/pages/${pagina}.html`)
+    fetch(`./pages/${pagina}.html`)
       .then(res => res.ok ? res.text() : Promise.reject(`Falha ao carregar ${pagina}`))
       .then(html => {
         conteudo.innerHTML = html;

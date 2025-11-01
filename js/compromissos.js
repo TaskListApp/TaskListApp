@@ -12,6 +12,18 @@ function inicializarCompromissos() {
   divAlerta.className = "mt-2";
   lista.parentNode.insertBefore(divAlerta, lista);
 
+  // --- Definir placeholders iniciais de data e hora ---
+  const hoje = new Date();
+  const ano = hoje.getFullYear();
+  const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+  const dia = String(hoje.getDate()).padStart(2, '0');
+  inputData.placeholder = `${dia}/${mes}/${ano}`;
+
+  let hora = hoje.getHours();
+  const minutos = hoje.getMinutes();
+  const arredondado = minutos < 30 ? "00" : "30";
+  inputHora.placeholder = `${String(hora).padStart(2,'0')}:${arredondado}`;
+  
   // Ícone selecionar todos
   const titulo = document.querySelector("h2");
   const iconeSelecionar = document.createElement("i");

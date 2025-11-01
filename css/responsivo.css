@@ -1,0 +1,131 @@
+/* ====================================================================
+   AJUSTES RESPONSIVOS GERAIS (TELAS ATÉ 600px)
+   ==================================================================== */
+@media (max-width: 600px) {
+
+  /* ---------- Estrutura Geral ---------- */
+  body {
+    padding: 0.8rem;
+    font-size: 16px;
+  }
+
+  h1, h2, h3 {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  main {
+    margin-top: 70px; /* evita sobreposição com menu fixo */
+  }
+
+  section {
+    margin-bottom: 1.5rem;
+  }
+
+  /* ---------- Inputs, Selects e Textareas ---------- */
+  input,
+  select,
+  textarea {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.75rem;
+    margin-bottom: 0.8rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  /* ---------- Botões ---------- */
+  .btn,
+  button {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+  }
+
+  .btn-primary {
+    background-color: #0d6efd;
+    border: none;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    border: none;
+  }
+
+  /* ---------- Agrupamentos de campos (input-group) ---------- */
+  .input-group,
+  .form-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .input-group input,
+  .form-group input {
+    margin-bottom: 0.8rem;
+  }
+
+  /* ---------- Listas de Itens (Tarefas, Compras, Compromissos) ---------- */
+  ul,
+  .lista-itens,
+  .lista-tarefas,
+  .lista-compromissos {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
+
+  li,
+  .item-tarefa,
+  .item-compra,
+  .item-compromisso {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    padding: 0.8rem;
+    margin-bottom: 0.7rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  li button,
+  .item-tarefa button,
+  .item-compra button,
+  .item-compromisso button {
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+
+  /* ---------- Cards (Compromissos) ---------- */
+  .card {
+    width: 100%;
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  /* ---------- Navbar ---------- */
+  .navbar {
+    flex-wrap: wrap;
+    padding: 0.5rem 1rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+
+  .navbar-toggler {
+    margin-left: auto;
+  }
+}

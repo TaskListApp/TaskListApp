@@ -1,23 +1,89 @@
-#listaCompromissos {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.list-group-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.3s;
 }
 
-#listaCompromissos li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  border-bottom: 1px solid #ddd;
-  background-color: #fff;
-  border-radius: 4px;
-  margin-bottom: 4px;
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.list-group-item.active {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
 }
 
 .compromisso-texto {
-  display: flex;
-  align-items: center;
+    flex: 1;
+    margin-left: 8px;
+}
+
+.icone-status {
+    font-size: 1.3rem;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.icone-excluir, .bi {
+    font-size: 1.2rem;
+}
+
+.tarefa-concluida {
+    font-weight: bold;
+}
+
+.icone-excluir {
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-left: 10px;
+    color: black;
+}
+
+.icone-excluir:hover {
+    color: #bb2d3b;
+}
+
+.bi:hover {
+    color: aquamarine;
+}
+
+#btnLimpar {
+  background-color: #ff9800;
+  border-color:greenyellow;
+  color: navy;
+  transition: all 0.3s ease;
+}
+
+#btnLimpar:hover {
+  background-color: #e68900;
+  color: white;
+}
+
+.list-group-item input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.icone-mover, .icone-excluir {
+    font-size: 1.3em;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+textarea,
+select {
+  border: 2px solid #0d6efd;     /* azul padrão Bootstrap */
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+  background-color: #fff;
 }
 
 #listaCompromissos input[type="checkbox"] {
@@ -51,26 +117,4 @@
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
-}
-
-.icone-mover, .icone-excluir {
-  margin-left: 8px;
-  cursor: pointer;
-  color: #0d6efd;
-}
-
-.icone-excluir:hover, .icone-mover:hover {
-  color: #dc3545;
-}
-
-.icone-selecionar-tudo {
-  margin-left: 10px;
-  cursor: pointer;
-  color: #0d6efd;
-}
-
-#btnLimpar {
-  display: none;
-  margin: 10px auto;
-  display: block;
 }

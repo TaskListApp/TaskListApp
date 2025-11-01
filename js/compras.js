@@ -238,7 +238,8 @@ function inicializarCompras() {
     }
     const troco = valorPago - subtotal;
     trocoEl.textContent = troco.toFixed(2);
-    inputValorPago.value = valorPago.toFixed(2); // garante duas casas decimais
+    inputValorPago.value = valorPago.toFixed(2);
+    valorPagoEl.textContent = valorPago.toFixed(2);
     trocoContainer.style.display = "flex";
   });
 

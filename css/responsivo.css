@@ -1,9 +1,5 @@
-/* ====================================================================
-   AJUSTES RESPONSIVOS GERAIS (TELAS ATÉ 600px)
-   ==================================================================== */
 @media (max-width: 600px) {
 
-  /* ---------- Estrutura Geral ---------- */
   body {
     padding: 0.8rem;
     font-size: 16px;
@@ -16,14 +12,13 @@
   }
 
   main {
-    margin-top: 70px; /* evita sobreposição com menu fixo */
+    margin-top: 70px;
   }
 
   section {
     margin-bottom: 1.5rem;
   }
 
-  /* ---------- Inputs, Selects e Textareas ---------- */
   input,
   select,
   textarea {
@@ -39,7 +34,6 @@
     resize: vertical;
   }
 
-  /* ---------- Botões ---------- */
   .btn,
   button {
     width: 100%;
@@ -58,7 +52,6 @@
     border: none;
   }
 
-  /* ---------- Agrupamentos de campos (input-group) ---------- */
   .input-group,
   .form-group {
     flex-direction: column;
@@ -70,7 +63,6 @@
     margin-bottom: 0.8rem;
   }
 
-  /* ---------- Listas de Itens (Tarefas, Compras, Compromissos) ---------- */
   ul,
   .lista-itens,
   .lista-tarefas,
@@ -103,7 +95,6 @@
     width: 100%;
   }
 
-  /* ---------- Cards (Compromissos) ---------- */
   .card {
     width: 100%;
     border-radius: 0.75rem;
@@ -115,7 +106,6 @@
     padding: 1rem;
   }
 
-  /* ---------- Navbar ---------- */
   .navbar {
     flex-wrap: wrap;
     padding: 0.5rem 1rem;

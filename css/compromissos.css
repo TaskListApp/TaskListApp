@@ -78,7 +78,7 @@ input[type="date"],
 input[type="time"],
 textarea,
 select {
-  border: 2px solid #0d6efd;     /* azul padrão Bootstrap */
+  border: 2px solid #0d6efd;
   border-radius: 0.5rem;
   padding: 0.6rem 0.8rem;
   transition: all 0.2s ease-in-out;

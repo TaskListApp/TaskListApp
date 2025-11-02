@@ -1,34 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Menu
-  fetch("./menu.html")
-    .then(resp => resp.ok ? resp.text() : Promise.reject("Falha ao carregar o menu"))
-    .then(html => document.getElementById("menu-container").innerHTML = html)
-    .catch(err => console.error(err));
-
-  // Página de compras
-  fetch("./pages/compras.html")
-    .then(resp => resp.ok ? resp.text() : Promise.reject("Falha ao carregar compras"))
-    .then(html => {
-      const conteudo = document.getElementById("conteudo");
-      conteudo.innerHTML = html;
-
-      if (
-        document.getElementById("listaCompras") &&
-        document.getElementById("btnAdicionar") &&
-        document.getElementById("novoProduto") &&
-        document.getElementById("precoProduto")
-      ) {
-        if (!window.comprasInicializadas) {
-          inicializarCompras();
-          window.comprasInicializadas = true;
-        }
-      } else {
-        console.error("Elementos de compras não encontrados. Verifique pages/compras.html");
-      }
-    })
-    .catch(err => console.error(err));
-});
-
 function inicializarCompras() {
   let contador = 0;
 
@@ -36,13 +5,11 @@ function inicializarCompras() {
   const inputProduto = document.getElementById("novoProduto");
   const inputPreco = document.getElementById("precoProduto");
   const lista = document.getElementById("listaCompras");
-  const iconeSelecionarTodos = document.getElementById("iconeSelecionarTodos");
+  const btnSelecionarTudo = document.getElementById("btnSelecionarTudo");
   const btnLimparLista = document.getElementById("btnLimparLista");
   const inputValorPago = document.getElementById("inputValorPago");
   const btnCalcular = document.getElementById("btnCalcular");
   const subtotalEl = document.getElementById("subtotal");
-  const valorPagoContainer = document.getElementById("valorPagoContainer");
-  const trocoContainer = document.getElementById("trocoContainer");
   const valorPagoEl = document.getElementById("valorPago");
   const trocoEl = document.getElementById("troco");
   const divAlerta = document.getElementById("alerta");
@@ -186,18 +153,18 @@ function inicializarCompras() {
   }
 
   let tudoSelecionado = false;
-  iconeSelecionarTodos.addEventListener("click", () => {
+  btnSelecionarTudo.addEventListener("click", () => {
     tudoSelecionado = !tudoSelecionado;
     const checkboxes = document.querySelectorAll("#listaCompras li .form-check-input");
     checkboxes.forEach(cb => cb.checked = tudoSelecionado);
     salvarCompras();
 
-    iconeSelecionarTodos.className = tudoSelecionado
-      ? "bi bi-x-square icone-selecionar-tudo"
-      : "bi bi-check2-square icone-selecionar-tudo";
+    btnSelecionarTudo.innerHTML = tudoSelecionado
+      ? `<i class="bi bi-x-square"></i> Desmarcar Tudo`
+      : `<i class="bi bi-check2-square"></i> Selecionar Tudo`;
   });
 
-    function atualizarSubtotal() {
+  function atualizarSubtotal() {
     let subtotal = 0;
     document.querySelectorAll("#listaCompras li").forEach(li => {
       const preco = parseFloat(li.querySelector(".produto-preco").value) || 0;
@@ -240,7 +207,6 @@ function inicializarCompras() {
     trocoEl.textContent = troco.toFixed(2);
     inputValorPago.value = valorPago.toFixed(2);
     valorPagoEl.textContent = valorPago.toFixed(2);
-    trocoContainer.style.display = "flex";
   });
 
   carregarCompras();

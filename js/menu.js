@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
 
-      // Eventos para carregar páginas
+      // Carrega as páginas
       document.getElementById("linkTarefas").addEventListener("click", e => {
         e.preventDefault();
         carregarPagina("tarefas");
@@ -31,12 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
         carregarPagina("compromissos");
       });
 
-      // Carrega a página inicial
+      // Página inicial
       carregarPagina("tarefas");
     })
     .catch(err => console.error("Erro ao carregar menu:", err));
 
-  // Função para carregar uma página
   function carregarPagina(pagina) {
     conteudo.innerHTML = "";
 
@@ -74,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch(err => console.error(err));
   }
 
-  // Atualiza o item do menu ativo
+  // Atualiza o menu ativo
   function atualizarItemAtivo(pagina) {
     const links = menuContainer.querySelectorAll(".nav-link");
     links.forEach(link => link.classList.remove("active"));

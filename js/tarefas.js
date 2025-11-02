@@ -1,60 +1,41 @@
-document.addEventListener("DOMContentLoaded", () => {
-  fetch("./menu.html")
-    .then(resp => {
-      if (!resp.ok) throw new Error("Falha ao carregar o menu");
-      return resp.text();
-    })
-    .then(html => {
-      document.getElementById("menu-container").innerHTML = html;
-    })
-    .catch(err => console.error("Erro ao carregar o menu:", err));
-
-  fetch("./pages/tarefas.html")
-    .then(resp => {
-      if (!resp.ok) throw new Error("Falha ao carregar tarefas");
-      return resp.text();
-    })
-    .then(html => {
-      document.getElementById("conteudo").innerHTML = html;
-      inicializarTarefas();
-    })
-    .catch(err => console.error("Erro ao carregar tarefas:", err));
-});
-
 function inicializarTarefas() {
   let contador = 0;
-  const btnAdicionar = document.getElementById("btnAdicionar");
   const inputTarefa = document.getElementById("novaTarefa");
+  const btnAdicionar = document.getElementById("btnAdicionar");
   const lista = document.getElementById("listaTarefas");
-  const titulo = document.querySelector("h2");
 
-  if (!btnAdicionar || !inputTarefa || !lista || !titulo) {
+  if (!btnAdicionar || !inputTarefa || !lista) {
     console.error("Elementos da lista de tarefas não encontrados!");
     return;
   }
-
-    const iconeSelecionar = document.createElement("i");
-  iconeSelecionar.className = "bi bi-check2-square ms-2 text-primary";
-  iconeSelecionar.style.cursor = "pointer";
-  iconeSelecionar.title = "Selecionar todas as tarefas";
-  titulo.appendChild(iconeSelecionar);
-
-const btnLimpar = document.createElement("button");
-btnLimpar.id = "btnLimpar";
-btnLimpar.className = "btn btn-warning btn-sm mt-3";
-btnLimpar.innerHTML = '<i class="bi bi-eraser-fill" style="color:#0d1b2a;"></i> <span style="color:#0d1b2a;">Limpar</span>';
-btnLimpar.style.display = "none";
-btnLimpar.style.margin = "20px auto 0"; 
-btnLimpar.style.display = "block"; 
-lista.parentNode.appendChild(btnLimpar);
 
   const divAlerta = document.createElement("div");
   divAlerta.className = "mt-3";
   inputTarefa.parentNode.parentNode.insertBefore(divAlerta, lista);
 
+  const divBotoes = document.createElement("div");
+  divBotoes.className = "d-flex justify-content-center align-items-center gap-3 mt-3";
+
+  // Selecionar Tudo
+  const btnSelecionarTudo = document.createElement("button");
+  btnSelecionarTudo.id = "btnSelecionarTudo";
+  btnSelecionarTudo.className = "btn btn-primary btn-sm";
+  btnSelecionarTudo.innerHTML = '<i class="bi bi-check2-square"></i> Selecionar Tudo';
+
+  // Limpar
+  const btnLimpar = document.createElement("button");
+  btnLimpar.id = "btnLimpar";
+  btnLimpar.className = "btn btn-warning btn-sm";
+  btnLimpar.innerHTML = '<i class="bi bi-eraser-fill" style="color:#0d1b2a;"></i> <span style="color:#0d1b2a;">Limpar</span>';
+  btnLimpar.style.display = "none";
+
+  divBotoes.appendChild(btnSelecionarTudo);
+  divBotoes.appendChild(btnLimpar);
+  lista.parentNode.appendChild(divBotoes);
+
   btnAdicionar.addEventListener("click", adicionarTarefa);
+  btnSelecionarTudo.addEventListener("click", selecionarTodas);
   btnLimpar.addEventListener("click", limparTarefasSelecionadas);
-  iconeSelecionar.addEventListener("click", selecionarTodas);
 
   carregarTarefas();
 
@@ -83,13 +64,11 @@ lista.parentNode.appendChild(btnLimpar);
     esquerda.className = "d-flex align-items-center";
 
     const icone = document.createElement("i");
-    icone.className =
-      "icone-status bi " +
+    icone.className = "icone-status bi " +
       (tarefa.concluida ? "bi-check-circle-fill text-success" : "bi-circle text-secondary");
 
     const span = document.createElement("span");
-    span.className =
-      "ms-2 tarefa-texto" + (tarefa.concluida ? " tarefa-concluida" : "");
+    span.className = "ms-2 tarefa-texto" + (tarefa.concluida ? " tarefa-concluida" : "");
     span.textContent = `${tarefa.id}. ${tarefa.texto}`;
 
     esquerda.appendChild(icone);
@@ -120,15 +99,10 @@ lista.parentNode.appendChild(btnLimpar);
 
     icone.addEventListener("click", () => {
       tarefa.concluida = !tarefa.concluida;
-      if (tarefa.concluida) {
-        icone.className = "icone-status bi bi-check-circle-fill text-success";
-        span.classList.add("tarefa-concluida");
-      } else {
-        icone.className = "icone-status bi bi-circle text-secondary";
-        span.classList.remove("tarefa-concluida");
-      }
+      atualizarIconeTarefa(icone, span, tarefa.concluida);
       salvarTarefas();
       atualizarVisibilidadeBotaoLimpar();
+      atualizarTextoBotaoSelecionar();
     });
 
     iconeExcluir.addEventListener("click", () => {
@@ -136,6 +110,7 @@ lista.parentNode.appendChild(btnLimpar);
       renumerarTarefas();
       salvarTarefas();
       atualizarVisibilidadeBotaoLimpar();
+      atualizarTextoBotaoSelecionar();
     });
 
     iconeUp.addEventListener("click", () => {
@@ -151,6 +126,16 @@ lista.parentNode.appendChild(btnLimpar);
       renumerarTarefas();
       salvarTarefas();
     });
+  }
+
+  function atualizarIconeTarefa(icone, span, concluida) {
+    if (concluida) {
+      icone.className = "icone-status bi bi-check-circle-fill text-success";
+      span.classList.add("tarefa-concluida");
+    } else {
+      icone.className = "icone-status bi bi-circle text-secondary";
+      span.classList.remove("tarefa-concluida");
+    }
   }
 
   function renumerarTarefas() {
@@ -172,36 +157,44 @@ lista.parentNode.appendChild(btnLimpar);
       return;
     }
 
-    let todasConcluidas = true;
-    itens.forEach(item => {
-      const icone = item.querySelector(".icone-status");
-      const span = item.querySelector(".tarefa-texto");
-      if (!span.classList.contains("tarefa-concluida")) todasConcluidas = false;
-    });
+    let todasConcluidas = Array.from(itens).every(item =>
+      item.querySelector(".tarefa-texto").classList.contains("tarefa-concluida")
+    );
 
     const marcar = !todasConcluidas;
     itens.forEach(item => {
       const icone = item.querySelector(".icone-status");
       const span = item.querySelector(".tarefa-texto");
-      if (marcar) {
-        icone.className = "icone-status bi bi-check-circle-fill text-success";
-        span.classList.add("tarefa-concluida");
-      } else {
-        icone.className = "icone-status bi bi-circle text-secondary";
-        span.classList.remove("tarefa-concluida");
-      }
+      atualizarIconeTarefa(icone, span, marcar);
     });
+
+    atualizarTextoBotaoSelecionar();
 
     salvarTarefas();
     atualizarVisibilidadeBotaoLimpar();
   }
 
+  function atualizarTextoBotaoSelecionar() {
+    const todasSelecionadas = Array.from(document.querySelectorAll("#listaTarefas li")).every(item =>
+      item.querySelector(".tarefa-texto").classList.contains("tarefa-concluida")
+    );
+
+    btnSelecionarTudo.innerHTML = todasSelecionadas
+      ? '<i class="bi bi-x-square"></i> Desmarcar Tudo'
+      : '<i class="bi bi-check2-square"></i> Selecionar Tudo';
+  }
+
   function limparTarefasSelecionadas() {
     if (confirm("Tem certeza que deseja limpar todas as tarefas selecionadas?")) {
-      lista.innerHTML = "";
-      localStorage.removeItem("tarefas");
-      contador = 0;
+      const itens = document.querySelectorAll("#listaTarefas li");
+      itens.forEach(item => {
+        const span = item.querySelector(".tarefa-texto");
+        if (span.classList.contains("tarefa-concluida")) item.remove();
+      });
+      renumerarTarefas();
+      salvarTarefas();
       atualizarVisibilidadeBotaoLimpar();
+      atualizarTextoBotaoSelecionar();
     }
   }
 
@@ -240,16 +233,9 @@ lista.parentNode.appendChild(btnLimpar);
       const [num, ...resto] = textoCompleto.split(".");
       const texto = resto.join(".").trim();
       const concluida = span.classList.contains("tarefa-concluida");
-
-      tarefas.push({
-        id: parseInt(num),
-        texto: texto,
-        concluida: concluida,
-      });
+      tarefas.push({ id: parseInt(num), texto, concluida });
     });
-
     localStorage.setItem("tarefas", JSON.stringify(tarefas));
-    atualizarVisibilidadeBotaoLimpar();
   }
 
   function carregarTarefas() {
@@ -258,5 +244,6 @@ lista.parentNode.appendChild(btnLimpar);
     armazenadas.forEach((t) => adicionarTarefaNaLista(t));
     renumerarTarefas();
     atualizarVisibilidadeBotaoLimpar();
+    atualizarTextoBotaoSelecionar();
   }
 }

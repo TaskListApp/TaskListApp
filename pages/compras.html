@@ -1,7 +1,6 @@
 <div class="container mt-4">
   <h2 class="text-center mb-4">
     <i class="bi bi-basket3-fill"></i> Lista de Compras
-    <i class="bi bi-check2-square icone-selecionar-tudo" id="iconeSelecionarTodos" title="Selecionar todos"></i>
   </h2>
 
   <div id="alerta"></div>
@@ -20,36 +19,40 @@
     </div>
   </div>
 
+  <ul class="list-group mb-3" id="listaCompras"></ul>
 
-</div>
-
-<ul class="list-group mb-3" id="listaCompras"></ul>
-
-<div class="mt-3">
-  <div class="d-flex justify-content-between align-items-center mb-2">
-    <label class="fw-bold">Subtotal:</label>
-    <span id="subtotal" class="fw-bold">0.00</span>
-  </div>
-
-  <div class="d-flex justify-content-between align-items-center mb-2">
-    <div class="col-3">
-      <label for="inputValorPago" class="fw-bold me-2">Valor pago:</label>
+  <div class="mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <label class="fw-bold">Subtotal:</label>
+      <span id="subtotal" class="fw-bold">0.00</span>
     </div>
-    <div class="col-3">
-    <input type="number" id="inputValorPago" class="form-control valor-pago-input me-2" 
-    placeholder="0,00" min="0" ="0.01">
+
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <div class="col-5">
+        <label for="inputValorPago" class="fw-bold me-2">Valor pago:</label>
+      </div>
+      <div class="col-3">
+        <input type="number" id="inputValorPago" class="form-control valor-pago-input me-2"
+          placeholder="0,00" min="0" step="0.01">
+      </div>
+      <label id="valorPago" class="fw-bold">0.00</label>
     </div>
-    <label id="valorPago" class="fw-bold">0.00</label>
-  </div>
 
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <label class="fw-bold">Troco:</label>
-    <span id="troco" class="fw-bold">0.00</span>
-  </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <label class="fw-bold">Troco:</label>
+      <span id="troco" class="fw-bold">0.00</span>
+    </div>
 
-  <div class="d-flex justify-content-center">
-    <button id="btnCalcular" class="btn btn-success me-2">Calcular Troco</button>
-    <button id="btnLimparLista" class="btn btn-warning" style="display:none;">Limpar Lista</button>
+    <div id="botoesAcoes" class="d-flex justify-content-center align-items-center gap-3 flex-wrap mt-3">
+      <button id="btnSelecionarTudo" class="btn btn-primary">
+        <i class="bi bi-check2-square"></i> Selecionar Tudo
+      </button>
+      <button id="btnCalcular" class="btn btn-success">
+        <i class="bi bi-cash-coin"></i> Troco
+      </button>
+      <button id="btnLimparLista" class="btn btn-warning" style="display:none;">
+        <i class="bi bi-eraser-fill"></i> Limpar
+      </button>
+    </div>
   </div>
-</div>
 </div>

@@ -7,6 +7,7 @@ function inicializarCompromissos() {
   const inputData = document.getElementById("dataCompromisso");
   const inputHora = document.getElementById("horaCompromisso");
   const btnLimpar = document.getElementById("btnLimpar");
+  const btnSelecionarTudo = document.getElementById("btnSelecionarTudo");
 
   const divAlerta = document.createElement("div");
   divAlerta.className = "mt-2";
@@ -18,25 +19,18 @@ function inicializarCompromissos() {
   const dia = String(hoje.getDate()).padStart(2, '0');
   inputData.placeholder = `${dia}/${mes}/${ano}`;
 
-  let hora = hoje.getHours();
+  const hora = hoje.getHours();
   const minutos = hoje.getMinutes();
   const arredondado = minutos < 30 ? "00" : "30";
   inputHora.placeholder = `${String(hora).padStart(2,'0')}:${arredondado}`;
-  
-  const titulo = document.querySelector("h2");
-  const iconeSelecionar = document.createElement("i");
-  iconeSelecionar.className = "bi bi-check2-square ms-2 icone-selecionar-tudo";
-  iconeSelecionar.title = "Selecionar todos os compromissos";
-  iconeSelecionar.style.cursor = "pointer";
-  titulo.appendChild(iconeSelecionar);
 
   btnAdicionar.addEventListener("click", adicionarCompromisso);
   btnLimpar.addEventListener("click", limparCompromissos);
-  iconeSelecionar.addEventListener("click", selecionarTodos);
+  btnSelecionarTudo.addEventListener("click", selecionarTodos);
 
   carregarCompromissos();
 
-    function mostrarAlerta(msg, tipo = "info") {
+  function mostrarAlerta(msg, tipo = "info") {
     divAlerta.innerHTML = `
       <div class="alert alert-${tipo} alert-dismissible fade show text-center" role="alert">
         ${msg}
@@ -93,6 +87,7 @@ function inicializarCompromissos() {
     checkbox.addEventListener("change", () => {
       comp.selecionado = checkbox.checked;
       salvarCompromissos();
+      atualizarBotoes();
     });
 
     const spanTexto = document.createElement("span");
@@ -137,11 +132,10 @@ function inicializarCompromissos() {
 
     li.appendChild(esquerda);
     li.appendChild(direita);
-
     lista.appendChild(li);
 
     renumerar();
-    atualizarBotaoLimpar();
+    atualizarBotoes();
   }
 
   function renumerar() {
@@ -156,10 +150,16 @@ function inicializarCompromissos() {
       const checkbox = li.querySelector("input[type=checkbox]");
       const [texto, dataHora] = li.querySelector("span").textContent.split(" - ");
       const [data, hora] = dataHora.split(" ");
-      comps.push({ id: parseInt(li.dataset.id), texto, data: formatarDataInversa(data), hora, selecionado: checkbox.checked });
+      comps.push({
+        id: parseInt(li.dataset.id),
+        texto,
+        data: formatarDataInversa(data),
+        hora,
+        selecionado: checkbox.checked
+      });
     });
     localStorage.setItem("compromissos", JSON.stringify(comps));
-    atualizarBotaoLimpar();
+    atualizarBotoes();
   }
 
   function carregarCompromissos() {
@@ -167,7 +167,7 @@ function inicializarCompromissos() {
     lista.innerHTML = "";
     armazenados.forEach(c => adicionarCompromissoNaLista(c));
     renumerar();
-    atualizarBotaoLimpar();
+    atualizarBotoes();
   }
 
   function limparCompromissos() {
@@ -175,19 +175,38 @@ function inicializarCompromissos() {
       lista.innerHTML = "";
       localStorage.removeItem("compromissos");
       contador = 0;
-      atualizarBotaoLimpar();
+      atualizarBotoes();
     }
   }
 
   function selecionarTodos() {
     const todos = lista.querySelectorAll("input[type=checkbox]");
+    if (todos.length === 0) {
+      mostrarAlerta("Nenhum compromisso para selecionar!", "info");
+      return;
+    }
+
     const marcar = Array.from(todos).some(cb => !cb.checked);
     todos.forEach(cb => cb.checked = marcar);
     salvarCompromissos();
   }
 
-  function atualizarBotaoLimpar() {
+  function atualizarBotoes() {
     const todos = lista.querySelectorAll("input[type=checkbox]");
-    btnLimpar.style.display = todos.length > 0 && Array.from(todos).every(cb => cb.checked) ? "inline-block" : "none";
+    const todosSelecionados = todos.length > 0 && Array.from(todos).every(cb => cb.checked);
+
+    btnLimpar.style.display = todosSelecionados ? "inline-block" : "none";
+
+    if (todos.length === 0) {
+      btnSelecionarTudo.innerHTML = '<i class="bi bi-check2-square"></i> Selecionar';
+      btnSelecionarTudo.disabled = true;
+    } else {
+      btnSelecionarTudo.disabled = false;
+      if (todosSelecionados) {
+        btnSelecionarTudo.innerHTML = '<i class="bi bi-x-square"></i> Desmarcar';
+      } else {
+        btnSelecionarTudo.innerHTML = '<i class="bi bi-check2-square"></i> Selecionar';
+      }
+    }
   }
 }

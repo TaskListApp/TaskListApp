@@ -89,3 +89,6 @@
   background-color: #fff;
 }
 
+#botoesAcoes button {
+  min-width: 50px;
+}
